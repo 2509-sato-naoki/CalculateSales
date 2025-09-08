@@ -70,13 +70,15 @@ public class CalculateSales {
 				// ※ここの読み込み処理を変更してください。(処理内容1-2)
 				String [] storeNameCode = line.split(",");
 				branchNames.put(storeNameCode[0],storeNameCode[1]);
+				branchSales.put(storeNameCode[0], 0L);
 				System.out.println(line);
 			}
-//			System.out.println(branchNames.get("001"));
-//			System.out.println(branchNames.get("002"));
-//			System.out.println(branchNames.get("003"));
-//			System.out.println(branchNames.get("004"));
-//			System.out.println(branchNames.get("005"));
+			System.out.println(branchSales.get("001"));
+			System.out.println(branchSales.get("002"));
+			System.out.println(branchSales.get("003"));
+			System.out.println(branchSales.get("004"));
+			System.out.println(branchSales.get("005"));
+
 
 
 		} catch(IOException e) {
