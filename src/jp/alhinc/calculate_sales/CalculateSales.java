@@ -61,12 +61,27 @@ public class CalculateSales {
 				br = new BufferedReader(fr);
 
 				String line;
+				int count = 0;
 				while((line = br.readLine()) != null) {
+					if (count == 0) {
+						long fileSale = Long.parseLong(line);
+					} else {
+//						long saleAmount = branchSales.get(line);
+					}
+//					String [] item = line.split("\n");
+//					店舗番号と金額の情報を保持させるようにする
+//					whilteの1番目は店番号 2番目は金額
 
 				}
+//				String[] item;
+//				while(br != null) {
+//					item = br.split("\n");
+//					long fileSale = Long.parseLong(item[1]);
+//					long saleAmount = branchSales.get(item[0]) + fileSale;
+//				}
 			}
 		}catch(IOException e) {
-
+			System.out.println(e);
 		}
 
 
