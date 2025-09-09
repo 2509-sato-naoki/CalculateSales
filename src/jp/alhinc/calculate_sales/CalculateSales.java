@@ -4,7 +4,9 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class CalculateSales {
@@ -37,6 +39,36 @@ public class CalculateSales {
 		}
 
 		// ※ここから集計処理を作成してください。(処理内容2-1、2-2)
+//		①まずはすべてのファイルを取得する
+		File[] files = new File("C:\\Users\\trainee1489\\Desktop\\売り上げ集計課題").listFiles();
+
+//		②正規表現を用いて取得したファイルが売り上げファイルかどうか判定する
+//		③売り上げファイルに当たるものをListに格納
+		List<File> rcdFile = new ArrayList<>();
+		for (int i = 0; i < files.length; i++) {
+			if (files[i].getName().matches(".+rcd$")) {
+				rcdFile.add(files[i]);
+			}
+		}
+//		④Listに格納したファイルをすべて読み込む
+		BufferedReader br = null;
+		try {
+			for (int i = 0; i < rcdFile.size(); i++) {
+//				rcdFile.get(i)がファイル型の変数
+
+
+				FileReader fr = new FileReader(rcdFile.get(i));
+				br = new BufferedReader(fr);
+
+				String line;
+				while((line = br.readLine()) != null) {
+
+				}
+			}
+		}catch(IOException e) {
+
+		}
+
 
 
 
@@ -73,11 +105,7 @@ public class CalculateSales {
 				branchSales.put(storeNameCode[0], 0L);
 				System.out.println(line);
 			}
-			System.out.println(branchSales.get("001"));
-			System.out.println(branchSales.get("002"));
-			System.out.println(branchSales.get("003"));
-			System.out.println(branchSales.get("004"));
-			System.out.println(branchSales.get("005"));
+
 
 
 
