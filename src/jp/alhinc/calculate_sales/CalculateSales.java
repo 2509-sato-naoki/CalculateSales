@@ -62,23 +62,14 @@ public class CalculateSales {
 
 				String line;
 				int count = 0;
+				List<String> list = new ArrayList<String>();
 				while((line = br.readLine()) != null) {
-					if (count == 0) {
-						long fileSale = Long.parseLong(line);
-					} else {
-//						long saleAmount = branchSales.get(line);
-					}
-//					String [] item = line.split("\n");
-//					店舗番号と金額の情報を保持させるようにする
-//					whilteの1番目は店番号 2番目は金額
-
+					list.add(line);
 				}
-//				String[] item;
-//				while(br != null) {
-//					item = br.split("\n");
-//					long fileSale = Long.parseLong(item[1]);
-//					long saleAmount = branchSales.get(item[0]) + fileSale;
-//				}
+				Long fileSale = Long.parseLong(list.get(1));
+				Long saleAmount = branchSales.get(list.get(0)) + fileSale;
+				branchSales.put(list.get(0), saleAmount);
+				System.out.println(list.get(0) + "の売上金額は"+ saleAmount);
 			}
 		}catch(IOException e) {
 			System.out.println(e);
