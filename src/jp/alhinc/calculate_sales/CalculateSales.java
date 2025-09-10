@@ -47,7 +47,7 @@ public class CalculateSales {
 		// ③売り上げファイルに当たるものをListに格納
 		List<File> rcdFile = new ArrayList<>();
 		for (int i = 0; i < files.length; i++) {
-			if (files[i].getName().matches("[0-9]{5}.+rcd$")) {
+			if (files[i].getName().matches("^[0-9]{8}.+rcd$")) {
 				rcdFile.add(files[i]);
 			}
 		}
