@@ -24,14 +24,12 @@ public class CalculateSales {
 	private static final String FILE_INVALID_FORMAT = "支店定義ファイルのフォーマットが不正です";
 	private static final String FILE_NOT_SERIAL_NUMBER = "売上ファイル名が連番になっていません";
 	private static final String SALE_AMOUNT_OVER_10_DIGIT = "合計金額が10桁を超えました";
-//	private static final String NOT_BRANCH_CODE = "合計金額が10桁を超えました";
  	/**
 	 * メインメソッド
 	 *
 	 * @param コマンドライン引数
 	 */
 	public static void main(String[] args) {
-		// コマンドライン引数を確認する場所？
 
 		// 支店コードと支店名を保持するMap
 		Map<String, String> branchNames = new HashMap<>();
@@ -55,7 +53,7 @@ public class CalculateSales {
 		// ③売り上げファイルに当たるものをListに格納
 		List<File> rcdFile = new ArrayList<>();
 		for (int i = 0; i < files.length; i++) {
-			if (files[i].isFile() && files[i].getName().matches("^[0-9]{8}rcd.+$")) {
+			if (files[i].isFile() && files[i].getName().matches("^[0-9]{8}.rcd$")) {
 				rcdFile.add(files[i]);
 			}
 		}
@@ -85,15 +83,15 @@ public class CalculateSales {
 				}
 				//売上ファイルのフォーマット確認（２行かどうか）をする場所はここ
 				if (list.size() != 2) {
-					System.out.println(branchNames.get(list.get(0)) + "のフォーマットが不正です");
+					System.out.println(rcdFile.get(i).getName() + "のフォーマットが不正です");
 					return;
 				}
 				// 売上ファイルの⽀店コードが⽀店定義ファイルに存在するか確認する処理はここ
 				if (!branchNames.containsKey(list.get(0))) {
-					System.out.println(branchNames.get(list.get(0)) + "の支店コードが不正です");
+					System.out.println(rcdFile.get(i).getName() + "の支店コードが不正です");
 					return;
 				}
-				if (!list.get(1).matches("[0-9]")) {
+				if (!list.get(1).matches("^[0-9]*$")) {
 					System.out.println(UNKNOWN_ERROR);
 					return;
 				}
