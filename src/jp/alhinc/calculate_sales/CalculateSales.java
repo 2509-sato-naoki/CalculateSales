@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +25,9 @@ public class CalculateSales {
 	private static final String FILE_INVALID_FORMAT = "支店定義ファイルのフォーマットが不正です";
 	private static final String FILE_NOT_SERIAL_NUMBER = "売上ファイル名が連番になっていません";
 	private static final String SALE_AMOUNT_OVER_10_DIGIT = "合計金額が10桁を超えました";
+	private static final String INVALID_FORMAT = "のフォーマットが不正です";
+	private static final String INVALID_STORE_CODE = "の支店コードが不正です";
+
  	/**
 	 * メインメソッド
 	 *
@@ -31,15 +35,16 @@ public class CalculateSales {
 	 */
 	public static void main(String[] args) {
 
+		// ここで初めてargsが使われるので、ここでargsの確認する
+		if (args.length != 1) {
+			System.out.println(UNKNOWN_ERROR);
+		}
+
 		// 支店コードと支店名を保持するMap
 		Map<String, String> branchNames = new HashMap<>();
 		// 支店コードと売上金額を保持するMap
 		Map<String, Long> branchSales = new HashMap<>();
 
-		// ここで初めてargsが使われるので、ここでargsの確認する
-		if (args.length != 1) {
-			System.out.println(UNKNOWN_ERROR);
-		}
 		// 支店定義ファイル読み込み処理
 		if(!readFile(args[0], FILE_NAME_BRANCH_LST, branchNames, branchSales)) {
 			return;
@@ -58,7 +63,7 @@ public class CalculateSales {
 			}
 		}
 		// 売り上げファイルが連番か確認する処理
-		for (int i = 0; i < rcdFile.size() - 1; i++) {
+		for (int i = 0; i < rcdFile.size() -1; i++) {
 			int former = Integer.parseInt(rcdFile.get(i).getName().substring(0, 8));
 			int latter = Integer.parseInt(rcdFile.get(i + 1).getName().substring(0, 8));
 
@@ -69,6 +74,7 @@ public class CalculateSales {
 		}
 
 		// ④Listに格納したファイルをすべて読み込む
+		Collections.sort(rcdFile);
 		for (int i = 0; i < rcdFile.size(); i++) {
 			BufferedReader br = null;
 			try {
@@ -83,12 +89,12 @@ public class CalculateSales {
 				}
 				//売上ファイルのフォーマット確認（２行かどうか）をする場所はここ
 				if (list.size() != 2) {
-					System.out.println(rcdFile.get(i).getName() + "のフォーマットが不正です");
+					System.out.println(rcdFile.get(i).getName() + INVALID_FORMAT);
 					return;
 				}
 				// 売上ファイルの⽀店コードが⽀店定義ファイルに存在するか確認する処理はここ
 				if (!branchNames.containsKey(list.get(0))) {
-					System.out.println(rcdFile.get(i).getName() + "の支店コードが不正です");
+					System.out.println(rcdFile.get(i).getName() + INVALID_STORE_CODE);
 					return;
 				}
 				if (!list.get(1).matches("^[0-9]*$")) {
@@ -106,7 +112,7 @@ public class CalculateSales {
 
 			} catch(IOException e) {
 				System.out.println(UNKNOWN_ERROR);
-			return;
+				return;
 			} finally {
 				// ファイルを開いている場合
 				if(br != null) {
@@ -157,7 +163,7 @@ public class CalculateSales {
 				// ※ここの読み込み処理を変更してください。(処理内容1-2)
 				String [] storeNameCode = line.split(",");
 				// 支店コードが3桁か、1行に支店コードと支店名が「,」で区切られているか確認
-				if (storeNameCode.length != 2 || !storeNameCode[0].matches("[0-9]{3}")) {
+				if (storeNameCode.length != 2 || !storeNameCode[0].matches("^[0-9]{3}$")) {
 					System.out.println(FILE_INVALID_FORMAT);
 					return false;
 				}
