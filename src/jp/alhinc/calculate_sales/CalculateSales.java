@@ -62,6 +62,7 @@ public class CalculateSales {
 				rcdFile.add(files[i]);
 			}
 		}
+		Collections.sort(rcdFile);
 		// 売り上げファイルが連番か確認する処理
 		for (int i = 0; i < rcdFile.size() -1; i++) {
 			int former = Integer.parseInt(rcdFile.get(i).getName().substring(0, 8));
@@ -74,7 +75,6 @@ public class CalculateSales {
 		}
 
 		// ④Listに格納したファイルをすべて読み込む
-		Collections.sort(rcdFile);
 		for (int i = 0; i < rcdFile.size(); i++) {
 			BufferedReader br = null;
 			try {
