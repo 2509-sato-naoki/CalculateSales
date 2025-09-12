@@ -36,6 +36,7 @@ public class CalculateSales {
 	private static final String SALE_AMOUNT_OVER_10_DIGIT = "合計金額が10桁を超えました";
 	private static final String INVALID_FORMAT = "のフォーマットが不正です";
 	private static final String INVALID_STORE_CODE = "の支店コードが不正です";
+	private static final String INVALID_PRODUCT_CODE = "の商品コードが不正です";
 
 	/**
 	 * メインメソッド
@@ -111,8 +112,12 @@ public class CalculateSales {
 					return;
 				}
 				// 売上ファイルの⽀店コードが⽀店定義ファイルに存在するか確認する処理はここ
-				if (!branchNames.containsKey(list.get(0)) || !branchProductsNames.containsKey(list.get(1))) {
+				if (!branchNames.containsKey(list.get(0))) {
 					System.out.println(rcdFile.get(i).getName() + INVALID_STORE_CODE);
+					return;
+				}
+				if (!branchProductsNames.containsKey(list.get(1))) {
+					System.out.println(rcdFile.get(i).getName() + INVALID_PRODUCT_CODE);
 					return;
 				}
 				if (!list.get(2).matches("^[0-9]*$")) {
