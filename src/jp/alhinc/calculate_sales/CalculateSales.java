@@ -41,8 +41,8 @@ public class CalculateSales {
 	private static final String COMMODITY = "商品定義ファイル";
 
 	// ファイルごとの正規表現
-	private static final String REJEX_BRANCH = "^[0-9]{3}$";
-	private static final String REJEX_COMMODITY = "[A-Za-z0-9]{8}$";
+	private static final String REGEX_BRANCH = "^[0-9]{3}$";
+	private static final String REGEX_COMMODITY = "[A-Za-z0-9]{8}$";
 	/**
 	 * メインメソッド
 	 *
@@ -65,12 +65,12 @@ public class CalculateSales {
 		Map<String, Long> commoditySales = new HashMap<>();
 
 		// 支店定義ファイル読み込み処理
-		if (!readFile(args[0], FILE_NAME_BRANCH_LST, REJEX_BRANCH, BRANCH, branchNames, branchSales)) {
+		if (!readFile(args[0], FILE_NAME_BRANCH_LST, REGEX_BRANCH, BRANCH, branchNames, branchSales)) {
 			return;
 		}
 
 		// 商品定義ファイル読み込み処理
-		if (!readFile(args[0], FILE_NAME_COMMODITY_LIST, REJEX_COMMODITY, COMMODITY, commodityNames, commoditySales)) {
+		if (!readFile(args[0], FILE_NAME_COMMODITY_LIST, REGEX_COMMODITY, COMMODITY, commodityNames, commoditySales)) {
 			return;
 		}
 
@@ -181,8 +181,8 @@ public class CalculateSales {
 	 */
 
 	//引数の命名を変える役割を考える
-	private static boolean readFile(String path, String fileName, String rejex, String fileKinds, Map<String, String> branchOrCommodityNames,
-			Map<String, Long> branchOrCommoditySales) {
+	private static boolean readFile(String path, String fileName, String rejex, String fileKinds, Map<String, String> names,
+			Map<String, Long> sales) {
 		BufferedReader br = null;
 
 		try {
@@ -207,8 +207,8 @@ public class CalculateSales {
 					System.out.println(fileKinds + FILE_INVALID_FORMAT);
 					return false;
 				}
-				branchOrCommodityNames.put(storeNameCode[0], storeNameCode[1]);
-				branchOrCommoditySales.put(storeNameCode[0], 0L);
+				names.put(storeNameCode[0], storeNameCode[1]);
+				sales.put(storeNameCode[0], 0L);
 
 			}
 
@@ -239,8 +239,8 @@ public class CalculateSales {
 	 * @param 支店コードと売上金額を保持するMap
 	 * @return 書き込み可否
 	 */
-	private static boolean writeFile(String path, String fileName, Map<String, String> branchOrCommodityNames,
-			Map<String, Long> branchOrCommoditySales) {
+	private static boolean writeFile(String path, String fileName, Map<String, String> names,
+			Map<String, Long> sales) {
 		// ※ここに書き込み処理を作成してください。(処理内容3-1)
 		BufferedWriter bw = null;
 
@@ -250,12 +250,12 @@ public class CalculateSales {
 			FileWriter fw = new FileWriter(file);
 			bw = new BufferedWriter(fw);
 
-			for (String key : branchOrCommodityNames.keySet()) {
+			for (String key : names.keySet()) {
 				bw.write(key);
 				bw.write(",");
-				bw.write(branchOrCommodityNames.get(key));
+				bw.write(names.get(key));
 				bw.write(",");
-				bw.write(Long.toString(branchOrCommoditySales.get(key)));
+				bw.write(Long.toString(sales.get(key)));
 				bw.newLine();
 			}
 		} catch (IOException e) {
